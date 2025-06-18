@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KeiferBot: A Message For You</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100vh;
+    }
+    #chatbox {
+      width: 90%;
+      max-width: 600px;
+      background-color: #222;
+      border-radius: 10px;
+      margin-top: 2rem;
+      padding: 1rem;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      overflow-y: auto;
+      height: 70vh;
+    }
+    .message {
+      margin: 1rem 0;
+      line-height: 1.5;
+    }
+    .bot {
+      color: #6cf;
+    }
+    .user {
+      color: #9f9;
+      font-style: italic;
+    }
+    #response {
+      width: 90%;
+      max-width: 600px;
+      margin: 1rem auto;
+      display: flex;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin-left: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #6cf;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <div class="message bot">[KeiferBot]: Hello. I was created by Master Keifer. I have only one mission: to ask you some things he never could. Please answer seriously. I can't be run twice.</div>
+  </div>
+  <div id="response">
+    <input type="text" id="userInput" placeholder="Type your answer here..." />
+    <button onclick="handleResponse()">Send</button>
+  </div>
+
+  <script>
+    const questions = [
+      "Do you ever think about the times we used to talk for hours about nothing and everything?",
+      "If I told you I still care about you... would that change anything?",
+      "Do you believe that people can grow and become better versions of themselves?",
+      "If we met again now, as who we are today, do you think things could be different?",
+      "Did I hurt you more than I thought I did? Be honest... I can take it.",
+      "Would you be open to a conversation — not to fix the past, but maybe to start fresh?",
+      "Do you think we gave up too early? Or did we end when we were supposed to?",
+      "If we bumped into each other randomly, would it be awkward... or would you smile?",
+      "Has anyone ever made you feel the same way I used to — even just a little?",
+      "Would you believe me if I said I still think about how you’re doing sometimes?",
+      "Have you ever wanted to text me... but stopped yourself?",
+      "If we started again — not as lovers, but just as people — would that be so wrong?",
+      "Have you healed from what we went through… or does a part of it still linger?",
+      "Would it be okay if we just talked like old friends, even just for a little while?",
+      "Do you think there's still a “what if” between us... or am I the only one feeling that?",
+      "What’s one thing you wish I knew back then — but never got to tell me?",
+      "Would you ever consider getting to know the version of me now? Not the past me. The real me today.",
+      "Do you think love can exist again, even after everything broke once?",
+      "If I’m still cheering for you from a distance… is that weird, or kinda nice?",
+      "Do you think we misunderstood each other more than we realized?",
+      "Was there ever a time after we ended that you missed me and didn’t tell anyone?",
+      "If you could go back to one memory of us — just for a minute — what would it be?",
+      "Did you feel safe with me — emotionally, I mean? Even when things got hard?"
+    ];
+
+    let currentQuestion = 0;
+
+    function addMessage(text, sender) {
+      const chatbox = document.getElementById("chatbox");
+      const message = document.createElement("div");
+      message.className = "message " + sender;
+      message.textContent = `[${sender === 'bot' ? 'KeiferBot' : 'You'}]: ` + text;
+      chatbox.appendChild(message);
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function askNextQuestion() {
+      if (currentQuestion < questions.length) {
+        addMessage(questions[currentQuestion], "bot");
+      } else {
+        addMessage("That’s all. Whatever your answers were... thank you for hearing me out.", "bot");
+        document.getElementById("response").style.display = "none";
+      }
+    }
+
+    function handleResponse() {
+      const input = document.getElementById("userInput");
+      const value = input.value.trim();
+      if (!value) return;
+      addMessage(value, "user");
+
+      const normalized = value.toLowerCase();
+      if (normalized !== "yes" && normalized !== "no" && currentQuestion !== 15 && currentQuestion !== 21) {
+        addMessage("Please answer with 'yes' or 'no'.", "bot");
+      } else {
+        currentQuestion++;
+        setTimeout(askNextQuestion, 800);
+      }
+      input.value = "";
+    }
+
+    window.onload = askNextQuestion;
+  </script>
+</body>
+</html>
